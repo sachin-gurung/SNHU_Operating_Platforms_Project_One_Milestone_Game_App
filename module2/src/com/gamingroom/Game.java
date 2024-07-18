@@ -1,5 +1,9 @@
 package com.gamingroom;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * A simple class to hold information about a game
  * 
@@ -14,43 +18,39 @@ package com.gamingroom;
  * @author coce@snhu.edu
  *
  */
-public class Game {
-	long id;
-	String name;
-	
-	/**
-	 * Hide the default constructor to prevent creating empty instances.
-	 */
-	private Game() {
-	}
+public class Game extends Entity{
+	private List<Team> teams = new ArrayList<>();
 
-	/**
-	 * Constructor with an identifier and name
-	 */
 	public Game(long id, String name) {
-		this();
-		this.id = id;
-		this.name = name;
+		super(id, name);
 	}
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
+	// Use iterator to look for existing game with same team name
+	// if found, simply return the existing team
+	public Team addTeam(String name) {
+		Team team = null;
+		
+		Iterator<Team> teamIterator = teams.iterator();
+		while(teamIterator.hasNext()) {
+			Team t = teamIterator.next();
+			if(t.getName().equalsIgnoreCase(name)) {
+				team = t;
+				break;
+			}
+		}
+		// if not found, make a new team instance and add to list of teams
+		if (team == null) {
+			team = new Team(GameService.getInstance().getNextTeamId(), name);
+			teams.add(team);
+		}
+		
+		// return the new/existing team instance to the caller
+		return team;
 	}
-
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-
+	
 	@Override
 	public String toString() {
-		
-		return "Game [id=" + id + ", name=" + name + "]";
+		return "Game [id=" + id + ", name=" + name + ", teams=" + teams + "]";
 	}
 
 }

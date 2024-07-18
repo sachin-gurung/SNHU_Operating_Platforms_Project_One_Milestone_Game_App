@@ -20,6 +20,12 @@ public class GameService {
 	 * Holds the next game identifier
 	 */
 	private static long nextGameId = 1;
+	
+	// Holds the next Player identifier
+	private static long nextPlayerId = 1;
+	
+	// Holds the next Team identifier
+	private static long nextTeamId = 1;
 
 	// FIXME: Add missing pieces to turn this class a singleton
 	// Holds the GameService instance
@@ -141,5 +147,13 @@ public class GameService {
 	 */
 	public int getGameCount() {
 		return games.size();
+	}
+	
+	public long getNextPlayerId() {
+		return nextPlayerId++;
+	}
+	
+	public long getNextTeamId() {
+		return nextTeamId++;
 	}
 }
